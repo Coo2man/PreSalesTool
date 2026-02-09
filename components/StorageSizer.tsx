@@ -85,7 +85,7 @@ const StorageSizer = () => {
     };
 
     const handleInputChange = (field: string, value: any) => {
-        setInputs(prev => ({ ...prev, [field]: value }));
+        setInputs((prev: any) => ({ ...prev, [field]: value }));
     };
 
     const formatNumber = (num: number) => {
