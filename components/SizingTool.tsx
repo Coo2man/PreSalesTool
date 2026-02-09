@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { Server, Cpu, Activity, AlertTriangle, Zap, Gauge, HardDrive, ShieldAlert } from 'lucide-react';
 
 const SizingTool = () => {
-    // Default values from user request
-    const [inputs, setInputs] = useState({
+    // Default values
+    const defaultInputs = {
         // CPU Inputs
         serverCount: 8,
         socketsPerServer: 1,
@@ -18,10 +18,24 @@ const SizingTool = () => {
         peakRamUsage: 3300,
         dimmCount: 12,
         dimmSize: 16
+    };
+
+    // Lazy initialization from localStorage
+    const [inputs, setInputs] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('sizing-tool-storage');
+            if (saved) {
+                try {
+                    return { ...defaultInputs, ...JSON.parse(saved) };
+                } catch (e) {
+                    console.error("Failed to load persistence", e);
+                }
+            }
+        }
+        return defaultInputs;
     });
 
     const [results, setResults] = useState({
-        // CPU Results
         totalCpuGHz: 0,
         loadPercentage: 0,
         nMinusOneGHz: 0,
@@ -29,7 +43,6 @@ const SizingTool = () => {
         nHalfGHz: 0,
         loadNHalfPercentage: 0,
 
-        // RAM Results
         ramPerServer: 0,
         totalRam: 0,
         loadRamPercentage: 0,
@@ -39,7 +52,9 @@ const SizingTool = () => {
         loadNHalfRamPercentage: 0
     });
 
+    // Save to localStorage on change
     useEffect(() => {
+        localStorage.setItem('sizing-tool-storage', JSON.stringify(inputs));
         calculateSizing();
     }, [inputs]);
 

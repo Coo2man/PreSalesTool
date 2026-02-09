@@ -46,13 +46,13 @@ export default function Home() {
                     <p className="text-muted-foreground text-sm">Calculate required hardware resources based on user load and workload type.</p>
                 </Link>
 
-                <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed">
-                    <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-4 text-green-500">
+                <Link href="/storage" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
+                    <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4 text-orange-500 group-hover:scale-110 transition-transform">
                         <Zap className="w-6 h-6" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">ROI Calculator</h3>
-                    <p className="text-muted-foreground text-sm">Generate Return on Investment reports for client proposals. (Coming Soon)</p>
-                </div>
+                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Storage Sizer</h3>
+                    <p className="text-muted-foreground text-sm">Forecast storage growth over time based on percentage or absolute values.</p>
+                </Link>
 
                 <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed">
                     <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 text-purple-500">
