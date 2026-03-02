@@ -3,13 +3,23 @@
 import Link from 'next/link';
 import { LayoutDashboard, Server, Calculator, BarChart3, Settings, Database, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { UserRole } from '@/lib/auth';
+import ContextModal from './ContextModal';
+import { rolesConfig } from '@/lib/roles';
 
-const Sidebar = () => {
+interface SidebarProps {
+    userRole?: UserRole | null;
+}
+
+const Sidebar = ({ userRole }: SidebarProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [showContextModal, setShowContextModal] = useState(false);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
+
+    const currentRoleObj = rolesConfig.find(r => r.id === userRole);
 
     return (
         <>
@@ -54,44 +64,69 @@ const Sidebar = () => {
                     <div className="px-4 pt-4 pb-2">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tools</p>
                     </div>
-                    <Link
-                        href="/sizing"
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
-                    >
-                        <Server className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                        <span className="font-medium">Server Sizing</span>
-                    </Link>
-                    <Link
-                        href="/storage"
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
-                    >
-                        <Database className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                        <span className="font-medium">Storage Sizer</span>
-                    </Link>
-                    <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground/80 cursor-not-allowed transition-all opacity-70">
-                        <Calculator className="w-5 h-5" />
-                        <span className="font-medium">ROI Calculator</span>
-                    </Link>
-                    <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground/80 cursor-not-allowed transition-all opacity-70">
-                        <BarChart3 className="w-5 h-5" />
-                        <span className="font-medium">Competitor Compare</span>
-                    </Link>
+                    {userRole === 'Data Center Consultant' ? (
+                        <>
+                            <Link
+                                href="/sizing"
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
+                            >
+                                <Server className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                <span className="font-medium">Server Sizing</span>
+                            </Link>
+                            <Link
+                                href="/storage"
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
+                            >
+                                <Database className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                <span className="font-medium">Storage Sizer</span>
+                            </Link>
+                            <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground/80 cursor-not-allowed transition-all opacity-70">
+                                <Calculator className="w-5 h-5" />
+                                <span className="font-medium">ROI Calculator</span>
+                            </Link>
+                            <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground/80 cursor-not-allowed transition-all opacity-70">
+                                <BarChart3 className="w-5 h-5" />
+                                <span className="font-medium">Competitor Compare</span>
+                            </Link>
+                        </>
+                    ) : (
+                        <div className="px-4 py-3 text-sm text-muted-foreground/70 italic">
+                            No tools available for this context yet.
+                        </div>
+                    )}
                 </nav>
 
                 <div className="p-4 border-t border-border bg-muted/20">
-                    <div className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors">
-                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                            YM
+                    <div
+                        onClick={() => setShowContextModal(true)}
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+                    >
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden">
+                            {currentRoleObj ? (
+                                <div className="scale-75">
+                                    {currentRoleObj.icon}
+                                </div>
+                            ) : (
+                                "YM"
+                            )}
                         </div>
                         <div className="flex flex-col">
                             <span className="text-sm font-medium">Yannik Meier</span>
-                            <span className="text-xs text-muted-foreground">Pro Consultant</span>
+                            <span className="text-xs text-muted-foreground">{userRole || "Consultant"}</span>
                         </div>
                     </div>
                 </div>
             </aside>
+
+            {/* Context Switch Modal */}
+            {showContextModal && (
+                <ContextModal
+                    currentRole={userRole}
+                    onClose={() => setShowContextModal(false)}
+                />
+            )}
         </>
     );
 };

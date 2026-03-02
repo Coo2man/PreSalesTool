@@ -1,7 +1,16 @@
 import Link from 'next/link';
 import { ArrowRight, Server, Zap, Shield } from 'lucide-react';
+import { cookies } from 'next/headers';
+import { verifyContextToken } from '@/lib/auth';
 
-export default function Home() {
+export default async function Home() {
+    const cookieStore = cookies();
+    const contextCookie = cookieStore.get('presales_user_context');
+
+    let role = null;
+    if (contextCookie) {
+        role = await verifyContextToken(contextCookie.value);
+    }
     return (
         <div className="space-y-8">
             {/* Hero Section */}
@@ -38,29 +47,43 @@ export default function Home() {
 
             {/* Dashboard Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Link href="/sizing" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 text-blue-500 group-hover:scale-110 transition-transform">
-                        <Server className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Server Sizing</h3>
-                    <p className="text-muted-foreground text-sm">Calculate required hardware resources based on user load and workload type.</p>
-                </Link>
+                {role === 'Data Center Consultant' ? (
+                    <>
+                        <Link href="/sizing" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
+                            <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 text-blue-500 group-hover:scale-110 transition-transform">
+                                <Server className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Server Sizing</h3>
+                            <p className="text-muted-foreground text-sm">Calculate required hardware resources based on user load and workload type.</p>
+                        </Link>
 
-                <Link href="/storage" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
-                    <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4 text-orange-500 group-hover:scale-110 transition-transform">
-                        <Zap className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Storage Sizer</h3>
-                    <p className="text-muted-foreground text-sm">Forecast storage growth over time based on percentage or absolute values.</p>
-                </Link>
+                        <Link href="/storage" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
+                            <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4 text-orange-500 group-hover:scale-110 transition-transform">
+                                <Zap className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Storage Sizer</h3>
+                            <p className="text-muted-foreground text-sm">Forecast storage growth over time based on percentage or absolute values.</p>
+                        </Link>
 
-                <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed">
-                    <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 text-purple-500">
-                        <Shield className="w-6 h-6" />
+                        <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed">
+                            <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 text-purple-500">
+                                <Shield className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">Security Audit</h3>
+                            <p className="text-muted-foreground text-sm">Quick checklist for security compliance and feature comparison. (Coming Soon)</p>
+                        </div>
+                    </>
+                ) : (
+                    <div className="col-span-1 md:col-span-3 p-12 text-center rounded-2xl border border-border bg-card border-dashed">
+                        <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4 text-muted-foreground">
+                            <Shield className="w-8 h-8 opacity-50" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 text-foreground">No Tools Available</h3>
+                        <p className="text-muted-foreground max-w-md mx-auto">
+                            Tools for your selected consultant context are currently in development. Please check back later.
+                        </p>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Security Audit</h3>
-                    <p className="text-muted-foreground text-sm">Quick checklist for security compliance and feature comparison. (Coming Soon)</p>
-                </div>
+                )}
             </div>
         </div>
     );
