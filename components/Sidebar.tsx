@@ -44,12 +44,14 @@ const Sidebar = ({ userRole }: SidebarProps) => {
                 fixed md:static inset-y-0 left-0 z-40 w-72 bg-card text-card-foreground border-r border-border flex flex-col shadow-lg transition-transform duration-300 ease-in-out
                 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
             `}>
-                <div className="p-6 border-b border-border pl-16 md:pl-6">
-                    {/* Padding Left adjusted for mobile close button clearance if needed, or just keep standard */}
-                    <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                        PreSales Box
-                    </h1>
-                    <p className="text-sm text-muted-foreground mt-1 font-medium">Consultant Workspace</p>
+                <div className="p-6 border-b border-border pl-16 md:pl-6 flex items-center gap-3">
+                    <img src="/logo.png" alt="PreSales Logo" className="h-10 w-auto object-contain" />
+                    <div className="flex flex-col">
+                        <h1 className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                            PreSales Box
+                        </h1>
+                        <p className="text-xs text-muted-foreground mt-0.5 font-medium">Consultant Workspace</p>
+                    </div>
                 </div>
 
                 <nav className="flex-1 px-4 py-6 space-y-1">

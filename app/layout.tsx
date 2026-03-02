@@ -10,8 +10,13 @@ import ContextModal from '@/components/ContextModal';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'PreSales Consultant Toolbox',
+  title: 'PreSales Box',
   description: 'Tools for PreSales Consultants',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 export default async function RootLayout({
