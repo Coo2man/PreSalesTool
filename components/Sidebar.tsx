@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { LayoutDashboard, Server, Calculator, BarChart3, Settings, Database, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Server, Calculator, BarChart3, Settings, Database, Menu, X, Banknote } from 'lucide-react';
 import { useState } from 'react';
 import { UserRole } from '@/lib/auth';
 import ContextModal from './ContextModal';
@@ -81,6 +81,14 @@ const Sidebar = ({ userRole }: SidebarProps) => {
                             >
                                 <Database className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                                 <span className="font-medium">Storage Sizer</span>
+                            </Link>
+                            <Link
+                                href="/pricing"
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
+                            >
+                                <Banknote className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                <span className="font-medium">Listpreisrechner</span>
                             </Link>
                             <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground/80 cursor-not-allowed transition-all opacity-70">
                                 <Calculator className="w-5 h-5" />

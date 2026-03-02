@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Server, Zap, Shield } from 'lucide-react';
+import { ArrowRight, Server, Zap, Shield, Banknote } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { verifyContextToken } from '@/lib/auth';
 
@@ -65,12 +65,20 @@ export default async function Home() {
                             <p className="text-muted-foreground text-sm">Forecast storage growth over time based on percentage or absolute values.</p>
                         </Link>
 
-                        <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed">
+                        <Link href="/pricing" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
+                            <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-4 text-green-500 group-hover:scale-110 transition-transform">
+                                <Banknote className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Listpreisrechner</h3>
+                            <p className="text-muted-foreground text-sm">Ermitteln Sie EK- und VK-Preise auf Basis von Listenpreisen und Rabatten.</p>
+                        </Link>
+
+                        <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed hidden md:block">
                             <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 text-purple-500">
                                 <Shield className="w-6 h-6" />
                             </div>
                             <h3 className="text-xl font-bold mb-2">Security Audit</h3>
-                            <p className="text-muted-foreground text-sm">Quick checklist for security compliance and feature comparison. (Coming Soon)</p>
+                            <p className="text-muted-foreground text-sm">Quick checklist for security compliance. (Coming Soon)</p>
                         </div>
                     </>
                 ) : (
