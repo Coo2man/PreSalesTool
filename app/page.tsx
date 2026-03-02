@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Server, Zap, Shield, Banknote } from 'lucide-react';
+import { ArrowRight, Server, Zap, Shield, Banknote, Percent } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { verifyContextToken } from '@/lib/auth';
 
@@ -71,6 +71,14 @@ export default async function Home() {
                             </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Listpreisrechner</h3>
                             <p className="text-muted-foreground text-sm">Ermitteln Sie EK- und VK-Preise auf Basis von Listenpreisen und Rabatten.</p>
+                        </Link>
+
+                        <Link href="/discount" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
+                            <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center mb-4 text-yellow-500 group-hover:scale-110 transition-transform">
+                                <Percent className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Rabattsatzrechner</h3>
+                            <p className="text-muted-foreground text-sm">Berechnen Sie Rabattsätze aus Listen- und EK-Preisen mit Leichtigkeit.</p>
                         </Link>
 
                         <div className="p-6 rounded-2xl border border-border bg-card/50 opacity-70 cursor-not-allowed hidden md:block">
