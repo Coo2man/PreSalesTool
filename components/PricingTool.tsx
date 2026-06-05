@@ -214,109 +214,109 @@ export default function PricingTool() {
                                                             handleItemChange(item.id, 'discount', val);
                                                         }}
                                                         className="w-full bg-transparent border border-transparent rounded-md px-2 py-1.5 text-right focus:bg-background focus:border-border focus:ring-2 focus:ring-primary outline-none transition-all pr-6"
-                                                        placeholder={`${discountRate}`}
-                                                    />
-                                                    <span className="absolute right-2 top-2 text-muted-foreground pointer-events-none text-sm">%</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-3 text-right font-medium text-blue-500/90 pr-6">
-                                                {formatCurrency(ek)}
-                                            </td>
-                                            <td className="px-4 py-3 text-center">
-                                                <button
-                                                    onClick={() => removeItem(item.id)}
-                                                    className="p-1.5 text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 rounded-md transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
-                                                    disabled={items.length === 1}
-                                                    title="Zeile entfernen"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                                    placeholder={discountRate.toLocaleString('de-DE')}
+                                                />
+                                                <span className="absolute right-2 top-2 text-muted-foreground pointer-events-none text-sm">%</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-right font-medium text-blue-500/90 pr-6">
+                                            {formatCurrency(ek)}
+                                        </td>
+                                        <td className="px-4 py-3 text-center">
+                                            <button
+                                                onClick={() => removeItem(item.id)}
+                                                className="p-1.5 text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 rounded-md transition-all opacity-0 group-hover:opacity-100 disabled:opacity-0"
+                                                disabled={items.length === 1}
+                                                title="Zeile entfernen"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-muted/20">
+                    <button
+                        onClick={addItem}
+                        className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors px-2 py-1 rounded-md hover:bg-primary/10"
+                    >
+                        <Plus className="w-4 h-4" /> Zeile hinzufügen
+                    </button>
+                    <div className="flex items-center gap-8 px-6">
+                        <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Gesamt EK</span>
+                        <span className="text-xl font-bold text-foreground">{formatCurrency(totalEK)}</span>
                     </div>
-                    <div className="flex items-center justify-between p-4 bg-muted/20">
-                        <button
-                            onClick={addItem}
-                            className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors px-2 py-1 rounded-md hover:bg-primary/10"
-                        >
-                            <Plus className="w-4 h-4" /> Zeile hinzufügen
-                        </button>
-                        <div className="flex items-center gap-8 px-6">
-                            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Gesamt EK</span>
-                            <span className="text-xl font-bold text-foreground">{formatCurrency(totalEK)}</span>
-                        </div>
+                </div>
+            </div>
+        </div>
+
+        {/* Table 2: EK -> VK */}
+        <div className="space-y-4 pt-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 bg-card border border-border p-5 rounded-2xl shadow-sm relative overflow-hidden">
+                <div className="absolute right-0 top-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div>
+                    <h2 className="text-xl font-bold flex items-center gap-2">
+                        <Calculator className="w-5 h-5 text-green-500" /> VK-Preis Kalkulation
+                    </h2>
+                    <p className="text-sm text-muted-foreground mt-1">Ermitteln Sie den Verkaufspreis auf Basis des Deckungsbeitrags.</p>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <label className="text-sm font-medium">Deckungsbeitrag (DB):</label>
+                    <div className="relative">
+                        <input
+                            type="number"
+                            value={margin}
+                            onChange={(e) => setMargin(Number(e.target.value))}
+                            className="w-24 bg-background border border-border rounded-lg px-3 py-2 text-right focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all outline-none pr-8"
+                            placeholder="0"
+                        />
+                        <Percent className="w-4 h-4 absolute right-2 top-2.5 text-muted-foreground pointer-events-none" />
                     </div>
                 </div>
             </div>
 
-            {/* Table 2: EK -> VK */}
-            <div className="space-y-4 pt-4">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 bg-card border border-border p-5 rounded-2xl shadow-sm relative overflow-hidden">
-                    <div className="absolute right-0 top-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl pointer-events-none"></div>
-                    <div>
-                        <h2 className="text-xl font-bold flex items-center gap-2">
-                            <Calculator className="w-5 h-5 text-green-500" /> VK-Preis Kalkulation
-                        </h2>
-                        <p className="text-sm text-muted-foreground mt-1">Ermitteln Sie den Verkaufspreis auf Basis des Deckungsbeitrags.</p>
-                    </div>
+            <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="border-b border-border bg-muted/40">
+                                <th className="px-4 py-3 font-semibold text-sm w-[35%]">Produkt</th>
+                                <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">EK - Preis</th>
+                                <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">Deckungsbeitrag</th>
+                                <th className="px-4 py-3 font-semibold text-sm w-[25%] text-right">VK - Preis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => {
+                                // Skip empty rows where list price is 0 and no name
+                                if (item.listPrice === 0 && !item.name.trim()) return null;
 
-                    <div className="flex items-center gap-3">
-                        <label className="text-sm font-medium">Deckungsbeitrag (DB):</label>
-                        <div className="relative">
-                            <input
-                                type="number"
-                                value={margin}
-                                onChange={(e) => setMargin(Number(e.target.value))}
-                                className="w-24 bg-background border border-border rounded-lg px-3 py-2 text-right focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all outline-none pr-8"
-                                placeholder="0"
-                            />
-                            <Percent className="w-4 h-4 absolute right-2 top-2.5 text-muted-foreground pointer-events-none" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="border-b border-border bg-muted/40">
-                                    <th className="px-4 py-3 font-semibold text-sm w-[35%]">Produkt</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">EK - Preis</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">Deckungsbeitrag</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[25%] text-right">VK - Preis</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {items.map((item) => {
-                                    // Skip empty rows where list price is 0 and no name
-                                    if (item.listPrice === 0 && !item.name.trim()) return null;
-
-                                    const ek = calculateEK(item);
-                                    const vk = calculateVK(ek, item.margin);
-                                    return (
-                                        <tr key={`vk-${item.id}`} className="border-b border-border/50 hover:bg-muted/10 transition-colors">
-                                            <td className="px-4 py-3 text-sm font-medium">
-                                                {item.name || <span className="text-muted-foreground italic">Unbenanntes Produkt</span>}
-                                            </td>
-                                            <td className="px-4 py-3 text-right text-sm text-muted-foreground pr-6">
-                                                {formatCurrency(ek)}
-                                            </td>
-                                            <td className="px-4 py-3">
-                                                <div className="relative">
-                                                    <input
-                                                        type="number"
-                                                        value={item.margin === undefined || item.margin === null ? '' : item.margin}
-                                                        onChange={(e) => {
-                                                            const val = e.target.value === '' ? undefined : Number(e.target.value);
-                                                            handleItemChange(item.id, 'margin', val);
-                                                        }}
-                                                        className="w-full bg-transparent border border-transparent rounded-md px-2 py-1.5 text-right focus:bg-background focus:border-border focus:ring-2 focus:ring-green-500 outline-none transition-all pr-6 cursor-pointer"
-                                                        placeholder={`${margin}`}
-                                                    />
+                                const ek = calculateEK(item);
+                                const vk = calculateVK(ek, item.margin);
+                                return (
+                                    <tr key={`vk-${item.id}`} className="border-b border-border/50 hover:bg-muted/10 transition-colors">
+                                        <td className="px-4 py-3 text-sm font-medium">
+                                            {item.name || <span className="text-muted-foreground italic">Unbenanntes Produkt</span>}
+                                        </td>
+                                        <td className="px-4 py-3 text-right text-sm text-muted-foreground pr-6">
+                                            {formatCurrency(ek)}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="relative">
+                                                <input
+                                                    type="number"
+                                                    value={item.margin === undefined || item.margin === null ? '' : item.margin}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value === '' ? undefined : Number(e.target.value);
+                                                        handleItemChange(item.id, 'margin', val);
+                                                    }}
+                                                    className="w-full bg-transparent border border-transparent rounded-md px-2 py-1.5 text-right focus:bg-background focus:border-border focus:ring-2 focus:ring-green-500 outline-none transition-all pr-6 cursor-pointer"
+                                                    placeholder={margin.toLocaleString('de-DE')}
+                                                />
                                                     <span className="absolute right-2 top-2 text-muted-foreground pointer-events-none text-sm">%</span>
                                                 </div>
                                             </td>

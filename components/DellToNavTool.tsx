@@ -12,6 +12,17 @@ interface ParsedProduct {
     buildLinesText: string;
 }
 
+const formatEuropeanNumber = (valStr: string): string => {
+    if (!valStr) return '';
+    const num = parseFloat(valStr.trim());
+    if (isNaN(num)) return valStr;
+    
+    return new Intl.NumberFormat('de-DE', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(num);
+};
+
 export default function DellToNavTool() {
     const [isDragging, setIsDragging] = useState(false);
     const [fileName, setFileName] = useState<string | null>(null);
@@ -53,9 +64,13 @@ export default function DellToNavTool() {
                 for (let i = 0; i < modelRows.length; i++) {
                     const row = modelRows[i];
                     const description = row.getElementsByTagName('MODEL_DESCRIPTION')[0]?.textContent || '';
-                    const listPrice = row.getElementsByTagName('MODEL_LINE_LIST_PRICE_WITHFREIGHT')[0]?.textContent || '';
-                    const discount = row.getElementsByTagName('MODEL_LINE_DOL_PERCENT')[0]?.textContent || '';
-                    const total = row.getElementsByTagName('MODEL_TOTAL')[0]?.textContent || '';
+                    const listPriceRaw = row.getElementsByTagName('MODEL_LINE_LIST_PRICE_WITHFREIGHT')[0]?.textContent || '';
+                    const discountRaw = row.getElementsByTagName('MODEL_LINE_DOL_PERCENT')[0]?.textContent || '';
+                    const totalRaw = row.getElementsByTagName('MODEL_TOTAL')[0]?.textContent || '';
+
+                    const listPrice = formatEuropeanNumber(listPriceRaw);
+                    const discount = formatEuropeanNumber(discountRaw);
+                    const total = formatEuropeanNumber(totalRaw);
 
                     const buildLinesRows = row.getElementsByTagName('BUILD_LINES_ROW');
                     const buildLinesTextArray = [];

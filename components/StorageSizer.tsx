@@ -204,13 +204,13 @@ const StorageSizer = () => {
                                     <th className="px-6 py-4">Jahr</th>
                                     <th className="px-6 py-4 text-right">
                                         <div className="flex flex-col items-end">
-                                            <span>Wachstum {inputs.growthPercent}% p.a.</span>
+                                            <span>Wachstum {inputs.growthPercent.toLocaleString('de-DE')}% p.a.</span>
                                             <span className="text-[10px] opacity-70">Dynamisch</span>
                                         </div>
                                     </th>
                                     <th className="px-6 py-4 text-right">
                                         <div className="flex flex-col items-end">
-                                            <span>Wachstum {inputs.growthTb} TB p.a.</span>
+                                            <span>Wachstum {inputs.growthTb.toLocaleString('de-DE')} TB p.a.</span>
                                             <span className="text-[10px] opacity-70">Linear</span>
                                         </div>
                                     </th>
@@ -248,7 +248,7 @@ const StorageSizer = () => {
                                 {formatNumber(sollSpeicher.percent)} <span className="text-lg font-normal text-muted-foreground">TB</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-2">
-                                bei {inputs.growthPercent}% Wachstum über {inputs.runtime} Jahre
+                                bei {inputs.growthPercent.toLocaleString('de-DE')}% Wachstum über {inputs.runtime} Jahre
                             </p>
                         </div>
 
@@ -258,7 +258,7 @@ const StorageSizer = () => {
                                 {formatNumber(sollSpeicher.absolute)} <span className="text-lg font-normal text-muted-foreground">TB</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-2">
-                                bei {inputs.growthTb} TB Wachstum über {inputs.runtime} Jahre
+                                bei {inputs.growthTb.toLocaleString('de-DE')} TB Wachstum über {inputs.runtime} Jahre
                             </p>
                         </div>
                     </div>
