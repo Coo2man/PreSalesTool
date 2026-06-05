@@ -127,12 +127,14 @@ const Sidebar = ({ userRole }: SidebarProps) => {
                                     {currentRoleObj.icon}
                                 </div>
                             ) : (
-                                "YM"
+                                "SSE"
                             )}
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-sm font-medium">Yannik Meier</span>
-                            <span className="text-xs text-muted-foreground">{userRole || "Consultant"}</span>
+                            <span className="text-sm font-semibold truncate max-w-[180px]">
+                                {currentRoleObj?.title || userRole || "Consultant"}
+                            </span>
+                            <span className="text-xs text-muted-foreground">SSE - Solution Sales Experts</span>
                         </div>
                     </div>
                 </div>
