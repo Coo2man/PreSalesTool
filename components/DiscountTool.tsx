@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Percent, Calculator } from 'lucide-react';
+import { Plus, Trash2, Percent, Calculator, Copy, Check } from 'lucide-react';
 
 interface DiscountItem {
     id: string;
@@ -12,6 +12,7 @@ interface DiscountItem {
 
 export default function DiscountTool() {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     const [items, setItems] = useState<DiscountItem[]>([
         { id: '1', name: '', listPrice: 0, ekPrice: 0 },
@@ -85,6 +86,32 @@ export default function DiscountTool() {
     const totalEKPrice = items.reduce((sum, item) => sum + item.ekPrice, 0);
     const totalDiscountRate = totalListPrice > 0 ? ((1 - (totalEKPrice / totalListPrice)) * 100) : 0;
 
+    const copyTableToClipboard = () => {
+        const header = "Produkt | Listenpreis | EK-Preis | Rabattsatz\n" +
+                       "----------------------------------------------\n";
+        const rows = items.map((item, idx) => {
+            const name = item.name.trim() || `Produkt ${idx + 1}`;
+            const listPriceStr = formatCurrency(item.listPrice);
+            const ekPriceStr = formatCurrency(item.ekPrice);
+            const discountStr = formatPercent(calculateDiscount(item.listPrice, item.ekPrice));
+            return `${name} | ${listPriceStr} | ${ekPriceStr} | ${discountStr}`;
+        }).join('\n');
+        
+        const footer = "\n----------------------------------------------\n" +
+                       `Gesamt Listenpreis: ${formatCurrency(totalListPrice)}\n` +
+                       `Gesamt EK: ${formatCurrency(totalEKPrice)}\n` +
+                       `Durchschnitts-Rabattsatz: ${formatPercent(totalDiscountRate)}`;
+                       
+        const textToCopy = header + rows + footer;
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }).catch(err => {
+            console.error('Fehler beim Kopieren:', err);
+        });
+    };
+
     return (
         <div className="space-y-10">
             {/* Table: Listpreis & EK -> Rabattsatz */}
@@ -103,10 +130,23 @@ export default function DiscountTool() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-border bg-muted/40">
-                                    <th className="px-4 py-3 font-semibold text-sm w-[40%]">Produkt</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">Listenpreis</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">EK - Preis</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[15%] text-right">Rabattsatz</th>
+                                    <th className="px-4 py-3 w-[5%] text-center">
+                                        <button
+                                            onClick={copyTableToClipboard}
+                                            className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-all"
+                                            title="Tabelle in Zwischenablage kopieren"
+                                        >
+                                            {copied ? (
+                                                <Check className="w-4 h-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4" />
+                                            )}
+                                        </button>
+                                    </th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[38%]">Produkt</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[18%] text-right">Listenpreis</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[18%] text-right">EK - Preis</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[16%] text-right">Rabattsatz</th>
                                     <th className="px-4 py-3 w-[5%] text-center"></th>
                                 </tr>
                             </thead>
@@ -115,6 +155,7 @@ export default function DiscountTool() {
                                     const discount = calculateDiscount(item.listPrice, item.ekPrice);
                                     return (
                                         <tr key={item.id} className="border-b border-border/50 hover:bg-muted/10 transition-colors group">
+                                            <td className="px-4 py-3 text-center w-[5%]"></td>
                                             <td className="px-4 py-3">
                                                 <input
                                                     type="text"
