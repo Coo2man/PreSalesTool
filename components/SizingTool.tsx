@@ -233,12 +233,35 @@ const SizingTool = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium leading-none">Größe DIMMs (GB)</label>
-                                <input
-                                    type="number" min="1"
-                                    value={inputs.dimmSize}
-                                    onChange={(e) => handleInputChange('dimmSize', parseInt(e.target.value) || 0)}
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                />
+                                <select
+                                    value={[16, 32, 64, 128, 256].includes(inputs.dimmSize) ? inputs.dimmSize : "custom"}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (val === "custom") {
+                                            handleInputChange('dimmSize', 48); // Standardwert für individuellen RAM
+                                        } else {
+                                            handleInputChange('dimmSize', parseInt(val));
+                                        }
+                                    }}
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none cursor-pointer"
+                                >
+                                    <option value={16}>16 GB</option>
+                                    <option value={32}>32 GB</option>
+                                    <option value={64}>64 GB</option>
+                                    <option value={128}>128 GB</option>
+                                    <option value={256}>256 GB</option>
+                                    <option value="custom">Eigene Größe...</option>
+                                </select>
+                                {!([16, 32, 64, 128, 256].includes(inputs.dimmSize)) && (
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={inputs.dimmSize === 0 ? '' : inputs.dimmSize}
+                                        onChange={(e) => handleInputChange('dimmSize', parseInt(e.target.value) || 0)}
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none mt-2"
+                                        placeholder="Größe in GB eingeben"
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className="pt-2 text-xs text-muted-foreground flex justify-between">
