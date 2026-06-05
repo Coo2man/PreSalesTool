@@ -7,6 +7,8 @@ interface ProductItem {
     id: string;
     name: string;
     listPrice: number;
+    discount?: number;
+    margin?: number;
 }
 
 const STANDARD_DISCOUNTS = [
@@ -85,19 +87,25 @@ export default function PricingTool() {
         }
     };
 
-    const calculateEK = (listPrice: number) => {
-        return listPrice * (1 - discountRate / 100);
+    const calculateEK = (item: ProductItem) => {
+        const rate = (item.discount !== undefined && item.discount !== null && !isNaN(item.discount)) 
+            ? item.discount 
+            : discountRate;
+        return item.listPrice * (1 - rate / 100);
     };
 
-    const calculateVK = (ekPrice: number) => {
+    const calculateVK = (ekPrice: number, itemMargin?: number) => {
         // VK = EK / (1 - DB)
         // Ensure we don't divide by 0 or negative if DB >= 100%
-        if (margin >= 100) return 0;
-        return ekPrice / (1 - margin / 100);
+        const effectiveMargin = (itemMargin !== undefined && itemMargin !== null && !isNaN(itemMargin)) 
+            ? itemMargin 
+            : margin;
+        if (effectiveMargin >= 100) return 0;
+        return ekPrice / (1 - effectiveMargin / 100);
     };
 
-    const totalEK = items.reduce((sum, item) => sum + calculateEK(item.listPrice), 0);
-    const totalVK = items.reduce((sum, item) => sum + calculateVK(calculateEK(item.listPrice)), 0);
+    const totalEK = items.reduce((sum, item) => sum + calculateEK(item), 0);
+    const totalVK = items.reduce((sum, item) => sum + calculateVK(calculateEK(item), item.margin), 0);
 
     return (
         <div className="space-y-10">
@@ -163,15 +171,16 @@ export default function PricingTool() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-border bg-muted/40">
-                                    <th className="px-4 py-3 font-semibold text-sm w-[45%]">Produkt</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[25%] text-right">Listenpreis</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[25%] text-right">EK - Preis</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[35%]">Produkt</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">Listenpreis</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">Rabattsatz</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">EK - Preis</th>
                                     <th className="px-4 py-3 w-[5%] text-center"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {items.map((item, index) => {
-                                    const ek = calculateEK(item.listPrice);
+                                    const ek = calculateEK(item);
                                     return (
                                         <tr key={item.id} className="border-b border-border/50 hover:bg-muted/10 transition-colors group">
                                             <td className="px-4 py-3">
@@ -193,6 +202,21 @@ export default function PricingTool() {
                                                         placeholder="0,00"
                                                     />
                                                     <span className="absolute right-2 top-2 text-muted-foreground pointer-events-none text-sm">€</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <div className="relative">
+                                                    <input
+                                                        type="number"
+                                                        value={item.discount === undefined || item.discount === null ? '' : item.discount}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value === '' ? undefined : Number(e.target.value);
+                                                            handleItemChange(item.id, 'discount', val);
+                                                        }}
+                                                        className="w-full bg-transparent border border-transparent rounded-md px-2 py-1.5 text-right focus:bg-background focus:border-border focus:ring-2 focus:ring-primary outline-none transition-all pr-6"
+                                                        placeholder={`${discountRate}`}
+                                                    />
+                                                    <span className="absolute right-2 top-2 text-muted-foreground pointer-events-none text-sm">%</span>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-3 text-right font-medium text-blue-500/90 pr-6">
@@ -260,8 +284,9 @@ export default function PricingTool() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-border bg-muted/40">
-                                    <th className="px-4 py-3 font-semibold text-sm w-[45%]">Produkt</th>
-                                    <th className="px-4 py-3 font-semibold text-sm w-[25%] text-right">EK - Preis</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[35%]">Produkt</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">EK - Preis</th>
+                                    <th className="px-4 py-3 font-semibold text-sm w-[20%] text-right">Deckungsbeitrag</th>
                                     <th className="px-4 py-3 font-semibold text-sm w-[25%] text-right">VK - Preis</th>
                                 </tr>
                             </thead>
@@ -270,8 +295,8 @@ export default function PricingTool() {
                                     // Skip empty rows where list price is 0 and no name
                                     if (item.listPrice === 0 && !item.name.trim()) return null;
 
-                                    const ek = calculateEK(item.listPrice);
-                                    const vk = calculateVK(ek);
+                                    const ek = calculateEK(item);
+                                    const vk = calculateVK(ek, item.margin);
                                     return (
                                         <tr key={`vk-${item.id}`} className="border-b border-border/50 hover:bg-muted/10 transition-colors">
                                             <td className="px-4 py-3 text-sm font-medium">
@@ -279,6 +304,21 @@ export default function PricingTool() {
                                             </td>
                                             <td className="px-4 py-3 text-right text-sm text-muted-foreground pr-6">
                                                 {formatCurrency(ek)}
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <div className="relative">
+                                                    <input
+                                                        type="number"
+                                                        value={item.margin === undefined || item.margin === null ? '' : item.margin}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value === '' ? undefined : Number(e.target.value);
+                                                            handleItemChange(item.id, 'margin', val);
+                                                        }}
+                                                        className="w-full bg-transparent border border-transparent rounded-md px-2 py-1.5 text-right focus:bg-background focus:border-border focus:ring-2 focus:ring-green-500 outline-none transition-all pr-6 cursor-pointer"
+                                                        placeholder={`${margin}`}
+                                                    />
+                                                    <span className="absolute right-2 top-2 text-muted-foreground pointer-events-none text-sm">%</span>
+                                                </div>
                                             </td>
                                             <td className="px-4 py-3 text-right font-bold text-green-500/90 pr-6">
                                                 {formatCurrency(vk)}
@@ -288,7 +328,7 @@ export default function PricingTool() {
                                 })}
                                 {items.every(i => i.listPrice === 0 && !i.name.trim()) && (
                                     <tr>
-                                        <td colSpan={3} className="px-4 py-8 text-center text-muted-foreground text-sm italic">
+                                        <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground text-sm italic">
                                             Fügen Sie oben Produkte hinzu, um die VK-Kalkulation zu sehen.
                                         </td>
                                     </tr>
