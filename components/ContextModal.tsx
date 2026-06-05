@@ -25,12 +25,8 @@ export default function ContextModal({ onClose, currentRole }: ContextModalProps
         setIsSaving(true);
         try {
             await setContextAction(role);
-            // Force a hard refresh to re-evaluate the layout and pass the new role down
-            router.refresh();
-            if (onClose) {
-                // Short delay to let the refresh trigger mostly before hiding
-                setTimeout(onClose, 200);
-            }
+            // Navigate to root dashboard to ensure fresh state/sidebar/tools
+            window.location.href = '/';
         } catch (error) {
             console.error('Failed to set context:', error);
             setIsSaving(false);

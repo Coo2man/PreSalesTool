@@ -1,0 +1,89 @@
+[33mcommit 20df9b48ddabd8076701229f5b88d94a90bf3de6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Fri Jun 5 15:17:59 2026 +0200
+
+    Backoffice - Dell to NAV
+
+[33mcommit 862778622c80d60eed5eec3b50c012ff55a8ff0b[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Fri Jun 5 14:18:14 2026 +0200
+
+    Kontext angepasst
+
+[33mcommit a3fbd823844a9b488e2da40cc0fd7e2776a6e71c[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Fri Jun 5 14:00:26 2026 +0200
+
+    Server Sizing - Dropdown Ram Riegel
+
+[33mcommit 6e020e35a8437cded292d26f7b1c12eaf2d8206e[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Fri Jun 5 13:51:12 2026 +0200
+
+    Rabattsatzrechner - individueller Rabattsatz und individueller Deckungsbeitrag
+
+[33mcommit 5428b4e57932435627d97f6edfc9e6892bb4ba65[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Fri Jun 5 13:38:49 2026 +0200
+
+    Rabattsatzrechner Zwischenablagefunktion
+
+[33mcommit 338c43b5eef7dfab52bef65f3f1415cf10656d6f[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Fri Jun 5 13:23:00 2026 +0200
+
+    ReadMe hinzugefügt
+
+[33mcommit 9903ece889ca7863a84f1f5669e89d2cbf237fe6[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Tue Mar 3 00:00:14 2026 +0100
+
+    Logo
+
+[33mcommit 761b52714a0a0ec7169e8504cbd0a41380b20ca1[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Mon Mar 2 23:22:59 2026 +0100
+
+    Rabattsatzrechner
+
+[33mcommit 298069f95262bc1f38e0c1d320316aafe8f1f780[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Mon Mar 2 23:16:28 2026 +0100
+
+    Listpreisrechner
+
+[33mcommit 00054d8867da4812fd29547b26b0c567d1f8fd98[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Mon Mar 2 22:47:00 2026 +0100
+
+    Re-run deployment
+
+[33mcommit ea2cf1d7397f383e0dfd57c6544e1a0a8b71f521[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Mon Mar 2 22:40:04 2026 +0100
+
+    Kontext erweiterung
+
+[33mcommit ef4536cd17d3413b61452d29316929d8c352ad32[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Mon Mar 2 22:05:44 2026 +0100
+
+    Menu anpassung mobile device
+
+[33mcommit 256a5b1320a0cb3b9e7535cf6dc83a7fb5a2844f[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Tue Feb 10 00:14:11 2026 +0100
+
+    Fix build error: implicit any type on prev parameter
+
+[33mcommit c20115179af6fb3088237e4c63e9473179d24c33[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Tue Feb 10 00:05:40 2026 +0100
+
+    Storage Sizer und Burger Menu
+
+[33mcommit efa50fe08d3910c2db1373b50ff4a8f1f7611686[m
+Author: Meier <yannik.meier@bechtle.com>
+Date:   Mon Feb 9 23:33:51 2026 +0100
+
+    Initial commit: PreSales Sizing Tool

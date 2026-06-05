@@ -12,16 +12,25 @@ Eine moderne, performante Webanwendung basierend auf **Next.js 14**, **TypeScrip
 * **Rollen-Auswahl (Context Modal):** Beim ersten Start oder per Wechsel-Option können Benutzer ihren Beratungsschwerpunkt wählen:
   * **Data Center Consultant:** Erhält Zugriff auf alle Infrastruktur-Tools.
   * **Network Consultant:** (In Entwicklung) Maßgeschneiderte Tools für Netzwerke.
-  * **Backoffice:** (In Entwicklung) Administrative und kaufmännische Ansichten.
+  * **Backoffice:** Voller Zugriff auf administrative und kaufmännische Hilfsmittel (wie das Dell to NAV Tool).
 * **Layout & Navigation:** Responsives Layout mit einer einklappbaren Sidebar (Burger-Menü für Mobilgeräte) für eine optimale Bedienung auf allen Displaygrößen.
+
+### 📋 Dell to NAV Tool (Exklusiv für Backoffice)
+* **Client-seitiger XML-Parser:** Drag-and-Drop-Feld zur lokalen Verarbeitung von Dell-Angebots-XML-Dateien ohne Übertragung an externe Server.
+* **Strukturierte Datenextraktion:** Liest Beschreibungen, Listenpreise, Rabattsätze und EK-Summen automatisch aus.
+* **Europäische Zahlendarstellung:** Einheitliche Formatierung aller Beträge mit Punkt als Tausendertrennzeichen und Komma als Dezimaltrenner (z. B. `123.456,78`).
+* **Navision-Integration:** Kopiert per Klick die gesamte Stückliste (`BUILD_LINES_ROW`) formatiert als `[Menge]x [SKU] - [Beschreibung]` direkt in die Zwischenablage.
 
 ### 🖥️ Server Sizing Tool
 * **Bedarfsanalyse:** Berechnet CPU-, Arbeitsspeicher (RAM)- und Storage-Empfehlungen basierend auf der geplanten Benutzeranzahl und dem Workload-Profil.
+* **Arbeitsspeicher-Konfiguration:** Bietet Dropdowns für RAM-Modulgrößen (16GB, 32GB, 64GB, 128GB, 256GB) sowie die Möglichkeit, individuelle Werte einzutragen.
 * **Dynamische Skalierung:** Berücksichtigt zukünftiges Wachstum und Performance-Puffer direkt in der Ressourcenempfehlung.
+* **State Persistence:** Einstellungen werden automatisch im `localStorage` gespeichert.
 
 ### 💾 Storage Sizer
-* **Wachstumsprognose:** Ermöglicht die Simulation von Storage-Zuwächsen über mehrere Jahre hinweg (prozentual oder mit absoluten Werten).
+* **Wachstumsprognose:** Simulation von Storage-Zuwächsen über mehrere Jahre hinweg (prozentual oder mit absoluten Werten).
 * **Konfigurationshilfe:** Hilft bei der Kalkulation von nutzbarem Speicherplatz unter Berücksichtigung von RAID-Typen und Disklayouts.
+* **State Persistence:** Einstellungen werden automatisch im `localStorage` gespeichert.
 
 ### 🧮 Listpreisrechner
 * **Margen- & Preiskalkulation:** Ermittelt Einkaufspreise (EK), Verkaufspreise (VK) und Margen basierend auf Listenpreisen, Kundenrabatten und Reseller-Rabatten.
@@ -30,6 +39,8 @@ Eine moderne, performante Webanwendung basierend auf **Next.js 14**, **TypeScrip
 
 ### 📉 Rabattsatzrechner
 * **Einfache Rabatt-Ermittlung:** Errechnet den genauen Rabattsatz in Prozent aus Listenpreis und Einkaufspreis bzw. Verkaufspreis.
+* **Kopierfunktion:** Ermöglicht das schnelle Kopieren der gesamten Tabelle formatiert als übersichtlicher Text für E-Mails oder Dokumente.
+* **State Persistence:** Tabelleninhalte werden automatisch im `localStorage` persistiert.
 
 ---
 
@@ -48,6 +59,7 @@ Eine moderne, performante Webanwendung basierend auf **Next.js 14**, **TypeScrip
 ```text
 ├── app/                  # Next.js App Router Pages & Layouts
 │   ├── actions.ts        # Server Actions (z. B. Cookie-basiertes Setzen der Benutzerrolle)
+│   ├── dell-to-nav/      # Page für das Dell to NAV Tool
 │   ├── discount/         # Page für den Rabattsatzrechner
 │   ├── pricing/          # Page für den Listpreisrechner
 │   ├── sizing/           # Page für das Server Sizing Tool
@@ -57,6 +69,7 @@ Eine moderne, performante Webanwendung basierend auf **Next.js 14**, **TypeScrip
 ├── components/           # Wiederverwendbare UI-Komponenten
 │   ├── ContextModal.tsx  # Modal zur Rollenauswahl (Data Center, Network, etc.)
 │   ├── Sidebar.tsx       # Einklappbare Sidebar für Desktop und Mobile
+│   ├── DellToNavTool.tsx # clientseitiges XML-Parsing & Navision Export
 │   ├── SizingTool.tsx    # Kernlogik & UI für Server Sizing
 │   ├── StorageSizer.tsx  # Kernlogik & UI für den Storage Sizer
 │   ├── PricingTool.tsx   # Kernlogik & UI für den Listpreisrechner (mit LocalStorage)
@@ -64,7 +77,7 @@ Eine moderne, performante Webanwendung basierend auf **Next.js 14**, **TypeScrip
 ├── lib/                  # Hilfsfunktionen & Konfigurationen
 │   ├── auth.ts           # Token-basierte Rollenverifizierung (JWT/Jose-basiert im Cookie)
 │   └── roles.tsx         # Konfiguration der Rollen und Symbole
-└── public/               # Statische Ressourcen (Icons, PWA Manifest)
+├── public/               # Statische Ressourcen (Icons, PWA Manifest)
 ```
 
 ---
