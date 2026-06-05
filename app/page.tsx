@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Server, Zap, Shield, Banknote, Percent } from 'lucide-react';
+import { ArrowRight, Server, Zap, Shield, Banknote, Percent, FileCode } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { verifyContextToken } from '@/lib/auth';
 
@@ -88,6 +88,16 @@ export default async function Home() {
                             <h3 className="text-xl font-bold mb-2">Security Audit</h3>
                             <p className="text-muted-foreground text-sm">Quick checklist for security compliance. (Coming Soon)</p>
                         </div>
+                    </>
+                ) : role === 'Backoffice' ? (
+                    <>
+                        <Link href="/dell-to-nav" className="group p-6 rounded-2xl border border-border bg-card hover:bg-accent/50 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md">
+                            <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 text-purple-500 group-hover:scale-110 transition-transform">
+                                <FileCode className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Dell to NAV</h3>
+                            <p className="text-muted-foreground text-sm">Konvertieren Sie Dell-Angebots-XMLs in kopierfertige Texte für Navision.</p>
+                        </Link>
                     </>
                 ) : (
                     <div className="col-span-1 md:col-span-3 p-12 text-center rounded-2xl border border-border bg-card border-dashed">

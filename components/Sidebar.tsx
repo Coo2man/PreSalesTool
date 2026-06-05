@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { LayoutDashboard, Server, Calculator, BarChart3, Settings, Database, Menu, X, Banknote, Percent } from 'lucide-react';
+import { LayoutDashboard, Server, Calculator, BarChart3, Settings, Database, Menu, X, Banknote, Percent, FileCode } from 'lucide-react';
 import { useState } from 'react';
 import { UserRole } from '@/lib/auth';
 import ContextModal from './ContextModal';
@@ -107,6 +107,17 @@ const Sidebar = ({ userRole }: SidebarProps) => {
                             <Link href="#" className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent/50 hover:text-muted-foreground/80 cursor-not-allowed transition-all opacity-70">
                                 <BarChart3 className="w-5 h-5" />
                                 <span className="font-medium">Competitor Compare</span>
+                            </Link>
+                        </>
+                    ) : userRole === 'Backoffice' ? (
+                        <>
+                            <Link
+                                href="/dell-to-nav"
+                                onClick={() => setIsOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
+                            >
+                                <FileCode className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                <span className="font-medium">Dell to NAV</span>
                             </Link>
                         </>
                     ) : (
